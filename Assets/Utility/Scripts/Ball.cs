@@ -6,12 +6,17 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI textScore;
+    [SerializeField] private TextMeshProUGUI goal;
     [SerializeField] private Transform transformPlayer;
     private bool stick;
+    [SerializeField] private Transform ball;
     private Transform ballPosition;
     float speed;
     Vector3 previousLocation;
     ThirdPersonController scriptPlayer;
+    public int awayScore, homeScore;
+    public float fadeTime = 1f;
 
     public bool Stick{get => stick; set => stick = value; }
 
@@ -25,6 +30,7 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(!stick)
         {
             float distanceToPlayer = Vector3.Distance(transformPlayer.position, transform.position);
@@ -41,7 +47,41 @@ public class Ball : MonoBehaviour
             transform.position = ballPosition.position;
             transform.Rotate(new Vector3(transformPlayer.right.x, 0, transformPlayer.right.z), speed, Space.World);
             previousLocation = currentLocation;
+            
         }
+        if(goal.alpha > 0)
+        {
+            goal.alpha -= Time.deltaTime/fadeTime;
+            goal.fontSize = 200 - (Time.deltaTime * 1-0);
+        }
+    }
+    public void AwayScore()
+    {            
+        awayScore++;
+        Score();
+        ResetBall();
+    }
+    public void HomeScore()
+    {
+        homeScore++;
+        Score();
+        ResetBall();
         
+    }
+
+    public void Score()
+    {
+        textScore.text = "Home  " + homeScore.ToString() + "    " + awayScore.ToString() + "  Away";
+        goal.text = "Goal!";
+        goal.alpha = 1f;
+    }
+
+    public void ResetBall()
+    {
+        stick = false;
+        ball.position = new Vector3(0f, 5.191999f, 1f);
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
     }
 }
