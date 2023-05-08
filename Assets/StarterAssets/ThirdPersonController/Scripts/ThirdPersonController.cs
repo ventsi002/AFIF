@@ -70,8 +70,11 @@ namespace StarterAssets
         
         private Ball ballAttachedToPlayer;
         private float timeShot = -1f;
+        private bool playerReset;
 
         public Ball BallAttachedToPlayer{ get => ballAttachedToPlayer; set => ballAttachedToPlayer = value;} 
+        public bool PlayerReset{ get => playerReset; set => playerReset = value;} 
+        [SerializeField]public Ball ball;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -271,6 +274,14 @@ namespace StarterAssets
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            
+            if(playerReset)
+            {
+                transform.position = new Vector3(0f, 5f, -2.95f);
+                transform.Rotate(new Vector3(0f, 0f, 0f));
+                PlayerReset = false;
+                ball.PlayerReset = playerReset;
+            }
 
             // update animator if using character
             if (_hasAnimator)

@@ -17,6 +17,9 @@ public class Ball : MonoBehaviour
     ThirdPersonController scriptPlayer;
     public int awayScore, homeScore;
     public float fadeTime = 1f;
+    public bool playerReset = false;
+
+    public bool PlayerReset{get => playerReset; set => playerReset = value; }
 
     public bool Stick{get => stick; set => stick = value; }
 
@@ -25,12 +28,12 @@ public class Ball : MonoBehaviour
     {
         ballPosition = transformPlayer.Find("Geometry").Find("BallPosition");
         scriptPlayer = transformPlayer.GetComponent<ThirdPersonController>();
+        scriptPlayer.PlayerReset = playerReset;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         if(!stick)
         {
             float distanceToPlayer = Vector3.Distance(transformPlayer.position, transform.position);
@@ -39,6 +42,7 @@ public class Ball : MonoBehaviour
                 Stick = true;
                 scriptPlayer.BallAttachedToPlayer = this;
             }
+            scriptPlayer.PlayerReset = playerReset;
         }
         else
         {
@@ -74,7 +78,7 @@ public class Ball : MonoBehaviour
         textScore.text = "Home  " + homeScore.ToString() + "    " + awayScore.ToString() + "  Away";
         goal.text = "Goal!";
         goal.alpha = 1f;
-        transformPlayer.position = new Vector3(0f, 5f, -2.95f);
+        PlayerReset = true;
     }
 
     public void ResetBall()
