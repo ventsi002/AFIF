@@ -74,12 +74,13 @@ public class Ball : MonoBehaviour
         textScore.text = "Home  " + homeScore.ToString() + "    " + awayScore.ToString() + "  Away";
         goal.text = "Goal!";
         goal.alpha = 1f;
+        transformPlayer.position = new Vector3(0f, 5f, -2.95f);
     }
 
     public void ResetBall()
     {
         stick = false;
-        ball.position = new Vector3(0f, 5.191999f, 1f);
+        ball.position = new Vector3(0f, 5.19f, 0f);
         Rigidbody rigidbody = GetComponent<Rigidbody>();
         rigidbody.velocity = Vector3.zero;
         rigidbody.angularVelocity = Vector3.zero;
