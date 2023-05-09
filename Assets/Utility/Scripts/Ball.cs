@@ -36,13 +36,13 @@ public class Ball : MonoBehaviour
     {
         if(!stick)
         {
+            scriptPlayer.PlayerReset = playerReset;
             float distanceToPlayer = Vector3.Distance(transformPlayer.position, transform.position);
             if(distanceToPlayer < 0.5)
             {
                 Stick = true;
                 scriptPlayer.BallAttachedToPlayer = this;
             }
-            scriptPlayer.PlayerReset = playerReset;
         }
         else
         {
@@ -75,10 +75,10 @@ public class Ball : MonoBehaviour
 
     public void Score()
     {
+        PlayerReset = true;
         textScore.text = "Home  " + homeScore.ToString() + "    " + awayScore.ToString() + "  Away";
         goal.text = "Goal!";
         goal.alpha = 1f;
-        PlayerReset = true;
     }
 
     public void ResetBall()
