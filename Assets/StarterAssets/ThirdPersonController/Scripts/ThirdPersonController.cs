@@ -31,6 +31,8 @@ namespace StarterAssets
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
+        private AudioSource dribble;
+        private AudioSource kick;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
@@ -147,7 +149,8 @@ namespace StarterAssets
 #endif
 
             AssignAnimationIDs();
-
+            kick = GameObject.Find("Sound/Kick").GetComponent<AudioSource>();
+            dribble = GameObject.Find("Sound/Dribble").GetComponent<AudioSource>();
             // reset our timeouts on start
             _fallTimeoutDelta = FallTimeout;
         }
@@ -163,6 +166,14 @@ namespace StarterAssets
                 Move();
             }
             Shoot();
+            if(ballAttachedToPlayer != null)
+            {
+                dribble.Play();
+            }
+            else
+            {
+                dribble.Stop();
+            }
         }
 
         private void LateUpdate()
@@ -314,6 +325,7 @@ namespace StarterAssets
                     rigidBody.AddForce(shootDirection * 10f, ForceMode.Impulse);
 
                     ballAttachedToPlayer = null;
+                    kick.Play();
                 }
                 if(Time.time - timeShot > 0.5)
                 {
