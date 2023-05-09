@@ -18,6 +18,8 @@ public class Ball : MonoBehaviour
     public int awayScore, homeScore;
     public float fadeTime = 1f;
     public bool playerReset = false;
+    private AudioSource cheer;
+    
 
     public bool PlayerReset{get => playerReset; set => playerReset = value; }
 
@@ -29,6 +31,7 @@ public class Ball : MonoBehaviour
         ballPosition = transformPlayer.Find("Geometry").Find("BallPosition");
         scriptPlayer = transformPlayer.GetComponent<ThirdPersonController>();
         scriptPlayer.PlayerReset = playerReset;
+        cheer = GameObject.Find("Sound/Crowd").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -76,6 +79,7 @@ public class Ball : MonoBehaviour
     public void Score()
     {
         PlayerReset = true;
+        cheer.Play();
         textScore.text = "Home  " + homeScore.ToString() + "    " + awayScore.ToString() + "  Away";
         goal.text = "Goal!";
         goal.alpha = 1f;
@@ -83,6 +87,7 @@ public class Ball : MonoBehaviour
 
     public void ResetBall()
     {
+        scriptPlayer.BallAttachedToPlayer = null;
         stick = false;
         ball.position = new Vector3(0f, 5.19f, 0f);
         Rigidbody rigidbody = GetComponent<Rigidbody>();
