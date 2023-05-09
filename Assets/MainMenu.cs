@@ -14,7 +14,20 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex == 1)
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+
+        {
+          if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex == 2)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);   
+        }
+
+        {
+          if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex == 3)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 3);   
+        }
+
     }
 }
