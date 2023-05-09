@@ -274,13 +274,15 @@ namespace StarterAssets
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-            
+
             if(playerReset)
             {
+                move = false;
                 transform.position = new Vector3(0f, 5f, -2.95f);
                 transform.Rotate(new Vector3(0f, 0f, 0f));
                 PlayerReset = false;
                 ball.PlayerReset = playerReset;
+                move = true;
             }
 
             // update animator if using character
