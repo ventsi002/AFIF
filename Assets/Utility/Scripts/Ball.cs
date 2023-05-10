@@ -9,6 +9,7 @@ public class Ball : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textScore;
     [SerializeField] private TextMeshProUGUI goal;
     [SerializeField] private Transform transformPlayer;
+    [SerializeField] private TextMeshProUGUI clock;
     private bool stick;
     [SerializeField] private Transform ball;
     private Transform ballPosition;
@@ -19,6 +20,8 @@ public class Ball : MonoBehaviour
     public float fadeTime = 1f;
     public bool playerReset = false;
     private AudioSource cheer;
+    int seconds;
+    float timer;
     
 
     public bool PlayerReset{get => playerReset; set => playerReset = value; }
@@ -37,6 +40,10 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        seconds = (int)timer % 60;
+        clock.text = seconds.ToString();
+
         if(!stick)
         {
             scriptPlayer.PlayerReset = playerReset;
